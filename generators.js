@@ -1,22 +1,23 @@
+nv.addGraph(function() {
+  var chart = nv.models.stackedAreaChart()
+                .x(function(d) { return d[0] })
+                .y(function(d) { return d[1] })
+                .clipEdge(true)
+                .useInteractiveGuideline(true)
+                ;
 
-function *HeapGen() {
-  var size = 0;
-  while(true) {
-    var diff = 500 - Math.ceil(Math.random() * 1000);
-    size += diff
-    yield size;
-  }
-}
+  chart.xAxis
+      .showMaxMin(false)
+      .tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
 
-function take(n, iter) {
-    var values = Array.from(Array(n), iter.next, iter).map(o => o.value)
-    return values
-}
+  chart.yAxis
+      .tickFormat(d3.format(',.2f'));
 
-function namedSlice(_name, n, iter) {
-    let i = iter()
-    return {
-        name:   _name,
-        values: take(n, iter())
-    }
-}
+  d3.select('#chart svg')
+    .datum(data)
+      .transition().duration(500).call(chart);
+
+  nv.utils.windowResize(chart.update);
+
+  return chart;
+});
