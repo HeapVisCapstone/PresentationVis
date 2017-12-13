@@ -8,13 +8,13 @@ nv.addGraph(function() {
 
   chart.xAxis
       .showMaxMin(false)
-      .tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+      .tickFormat(d3.format(',.2f'));
 
   chart.yAxis
       .tickFormat(d3.format(',.2f'));
 
   d3.select('#chart svg')
-    .datum(data)
+    .datum(data1.txt)
       .transition().duration(500).call(chart);
 
   nv.utils.windowResize(chart.update);
